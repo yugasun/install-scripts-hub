@@ -1,6 +1,10 @@
 import type { Translation } from '../translations';
 
 const zh: Translation = {
+  nav: {
+    home: '首页',
+    about: '关于',
+  },
   common: {
     menu: {
       home: '首页',
@@ -18,13 +22,21 @@ const zh: Translation = {
     },
   },
   home: {
-    title: '安装脚本',
+    title: 'Install Scripts Hub',
     subtitle: '流行工具和软件的一键安装脚本',
     availableScripts: '可用脚本',
     searchPlaceholder: '搜索脚本...',
+    clearSearch: '清除搜索',
     loading: '加载脚本中...',
     loadingError: '加载脚本失败，请重试。',
     noResults: '没有找到匹配的脚本。',
+    scriptsFound: '个脚本',
+    quickTips: '快速提示',
+  },
+  tips: {
+    curl: '确保您的系统中已安装 curl。',
+    sudo: '某些脚本可能需要 sudo 权限。',
+    verify: '在运行之前，请务必核对脚本内容。',
   },
   script: {
     details: '查看详情',
@@ -51,12 +63,12 @@ const zh: Translation = {
     socialShare: '或在社交媒体上分享:',
   },
   about: {
-    title: '关于安装脚本',
+    title: '关于 Install Scripts Hub',
     subtitle: '了解更多关于本项目及其工作原理',
-    whatIs: '什么是安装脚本?',
-    description: '安装脚本是一个提供流行工具和软件一键安装命令的平台。它使在你的系统上安装开发者工具、实用程序和应用程序变得简单，无需记住复杂的安装过程。',
+    whatIs: '什么是 Install Scripts Hub?',
+    description: 'Install Scripts Hub 是一个提供流行工具和软件一键安装命令的平台。它使在你的系统上安装开发者工具、实用程序和应用程序变得简单，无需记住复杂的安装过程。',
     howWorks: '它是如何工作的?',
-    workingDescription: '安装脚本通过提供托管在我们服务器上的精选shell脚本来工作。当你运行安装命令时，它会下载并执行脚本，脚本会为你处理安装过程。',
+    workingDescription: 'Install Scripts Hub 通过提供托管在我们服务器上的精选shell脚本来工作。当你运行安装命令时，它会下载并执行脚本，脚本会为你处理安装过程。',
     step1: '我们维护一系列流行软件的安装脚本。',
     step2: '你运行一个简单的curl命令，它会下载并执行适当的脚本。',
     step3: '脚本处理在你系统上安装和配置软件所需的所有步骤。',

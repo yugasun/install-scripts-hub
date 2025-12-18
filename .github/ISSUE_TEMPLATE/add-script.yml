@@ -1,0 +1,105 @@
+name: Add New Install Script
+description: Submit a new installation script to the catalog
+title: '[SCRIPT] '
+labels:
+  - script-submission
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing! Please fill in the details below to add a new installation script.
+        The data will be automatically processed by our GitHub Action.
+
+  - type: input
+    id: script_id
+    attributes:
+      label: Script ID
+      description: A unique identifier for the script (lowercase, no spaces, e.g., "fnm", "oh-my-zsh")
+      placeholder: e.g., my-awesome-tool
+    validations:
+      required: true
+
+  - type: input
+    id: script_url
+    attributes:
+      label: Script URL
+      description: The filename of the script in public/installs/ (e.g., "my-tool.sh") or an absolute URL.
+      placeholder: e.g., my-tool.sh
+    validations:
+      required: true
+
+  - type: input
+    id: source_url
+    attributes:
+      label: Source URL
+      description: Link to the official repository or documentation
+      placeholder: https://github.com/example/project
+    validations:
+      required: true
+
+  - type: input
+    id: name_en
+    attributes:
+      label: Name (English)
+      description: The display name in English
+      placeholder: e.g., My Awesome Tool
+    validations:
+      required: true
+
+  - type: textarea
+    id: description_en
+    attributes:
+      label: Description (English)
+      description: A brief description in English
+      placeholder: Describe what this script does in English...
+    validations:
+      required: true
+
+  - type: input
+    id: name_zh
+    attributes:
+      label: Name (Chinese)
+      description: The display name in Chinese
+      placeholder: e.g., 我的超赞工具
+    validations:
+      required: true
+
+  - type: textarea
+    id: description_zh
+    attributes:
+      label: Description (Chinese)
+      description: A brief description in Chinese
+      placeholder: 用中文描述这个脚本的作用...
+    validations:
+      required: true
+
+  - type: input
+    id: custom_command
+    attributes:
+      label: Custom Command (Optional)
+      description: Override the default "curl | bash" command if necessary
+      placeholder: e.g., wget -qO- https://example.com/install.sh | bash
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification
+      description: Please confirm the following before submitting
+      options:
+        - label: Script has been tested locally
+          required: true
+        - label: Script is from an official or trusted source
+          required: true
+        - label: Installation command works without requiring user input
+          required: true
+        - label: Script is compatible with Unix-like systems (macOS, Linux)
+          required: true
+
+  - type: textarea
+    id: additional_notes
+    attributes:
+      label: Additional Notes
+      description: Any other information that might be helpful
+      placeholder: Add any additional context here...
+

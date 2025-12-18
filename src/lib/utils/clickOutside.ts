@@ -1,31 +1,31 @@
-import type { Action } from 'svelte/action';
+import { useEffect, useRef, type RefObject } from 'react';
 
-/** 
- * A custom Svelte directive for handling clicks outside an element
+/**
+ * React hook for handling clicks outside an element
  * Used for closing dropdown menus when clicking outside
  */
+export function useClickOutside<T extends HTMLElement>(
+  callback: () => void,
+  enabled = true
+): RefObject<T | null> {
+  const ref = useRef<T>(null);
 
-export function clickOutside(node: HTMLElement, { enabled = true, callback }: { enabled: boolean; callback: () => void }) {
-  const handleOutsideClick = (event: MouseEvent) => {
+  useEffect(() => {
     if (!enabled) return;
-    
-    // Check if the click is outside the node
-    const target = event.target as Node;
-    if (node && !node.contains(target) && !event.defaultPrevented) {
-      callback();
-    }
-  };
 
-  // Add the event listener
-  document.addEventListener('click', handleOutsideClick, true);
+    const handleOutsideClick = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (ref.current && !ref.current.contains(target)) {
+        callback();
+      }
+    };
 
-  return {
-    update({ enabled: newEnabled, callback: newCallback }: { enabled: boolean; callback: () => void }) {
-      enabled = newEnabled;
-      callback = newCallback;
-    },
-    destroy() {
+    document.addEventListener('click', handleOutsideClick, true);
+
+    return () => {
       document.removeEventListener('click', handleOutsideClick, true);
-    }
-  };
+    };
+  }, [callback, enabled]);
+
+  return ref;
 }

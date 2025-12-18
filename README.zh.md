@@ -1,7 +1,7 @@
 # Install Scripts Hub
 
 <p align="center">
-  <img src="static/favicon.png" alt="Install Scripts Hub" width="64" height="64">
+  <img src="public/favicon.png" alt="Install Scripts Hub" width="64" height="64">
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/yugasun/install" alt="License">
+    <img src="https://img.shields.io/github/license/yugasun/install-scripts-hub" alt="License">
   </a>
 </p>
 
@@ -18,7 +18,7 @@
 
 ## 📖 项目简介
 
-Install Scripts Hub 是一个集中式平台，提供各种流行开发工具和实用程序的一键安装脚本。该项目基于 SvelteKit 构建，为开发者提供了清晰、快速的界面，方便快速查找和使用 Oh My Zsh、fnm、SDKMAN 等工具的安装命令。
+Install Scripts Hub 是一个集中式平台，提供各种流行开发工具和实用程序的一键安装脚本。当前应用基于 **Next.js（App Router）+ React** 构建，并支持静态导出，便于部署在各种静态托管环境。
 
 ## ✨ 功能特点
 
@@ -27,7 +27,7 @@ Install Scripts Hub 是一个集中式平台，提供各种流行开发工具和
 - 📋 **一键复制**：所有安装命令支持一键复制功能
 - 📱 **响应式设计**：在移动设备和桌面上都能完美运行
 - 🔍 **分类脚本**：安装脚本按类别组织，条理清晰
-- 🚀 **快速轻量**：使用 SvelteKit 构建，性能优异
+- 🚀 **快速轻量**：Next.js 静态导出，加载迅速
 
 ## 🚀 可用安装脚本
 
@@ -47,67 +47,74 @@ Install Scripts Hub 是一个集中式平台，提供各种流行开发工具和
 ### 前置条件
 
 - Node.js (版本 18 或更高)
-- pnpm 包管理器
+- 任意包管理器（npm/pnpm/bun）
 
 ### 安装步骤
 
 1. 克隆仓库：
 ```bash
-git clone https://github.com/yugasun/install.git
-cd install-sveltekit
+git clone https://github.com/yugasun/install-scripts-hub.git
+cd install-scripts-hub
 ```
 
 2. 安装依赖：
 ```bash
-pnpm install
+bun install
 ```
 
 3. 启动开发服务器：
 ```bash
-pnpm dev
+bun run dev
 ```
 
-4. 打开浏览器并访问 `http://localhost:5173`
+4. 打开浏览器并访问 `http://localhost:3000`
 
 ### 构建生产版本
 
 创建优化的生产构建：
 
 ```bash
-pnpm build
+bun run build
 ```
 
-预览生产构建：
+在本地运行构建产物：
 
 ```bash
-pnpm preview
+bun run start
 ```
 
 ## 📁 项目结构
 
 ```
 ├── src/                 # 源代码
-│   ├── lib/             # 库代码
-│   │   ├── components/  # Svelte 组件
-│   │   ├── data/        # 数据文件
-│   │   ├── i18n/        # 国际化
-│   │   ├── services/    # 服务
-│   │   └── utils/       # 实用函数
-│   ├── routes/          # 应用路由
-│   └── app.html         # HTML 模板
-├── static/              # 静态资源
-│   └── installs/        # 安装脚本
-├── build/               # 生产构建输出
+│   ├── app/             # Next.js App Router 路由
+│   ├── components/      # React 组件
+│   └── lib/             # 通用类型、i18n、服务、工具函数
+├── public/              # 静态资源（原样导出）
+│   ├── installs/        # 安装脚本
+│   └── scripts.*.json   # 脚本元数据（含 scripts.json 回退）
 └── ... 配置文件
 ```
 
 ## 📝 添加新的安装脚本
 
-1. 将你的 shell 脚本添加到 `static/installs/` 目录
-2. 在 `src/lib/data/scripts.json` 中添加脚本的元数据
-3. 如有需要，更新 `src/lib/i18n/translations/` 中的翻译
-4. 在本地测试你的更改
-5. 提交拉取请求
+## 📝 添加新的安装脚本
+
+我们欢迎贡献！你可以通过以下两种方式添加新脚本：
+
+### 1. 通过 GitHub Issues (推荐)
+
+1. 前往 [Issues](https://github.com/yugasun/install-scripts-hub/issues) 页面。
+2. 点击 **New Issue** 并选择 **Add New Script** 模板。
+3. 填写所需信息（脚本 ID、URL、名称、描述等）。
+4. 一旦维护者将该 issue 标记为 `approved`，系统将自动生成一个 Pull Request。
+
+### 2. 手动贡献
+
+1. 将你的 shell 脚本添加到 [public/installs/](public/installs/) 目录。
+2. 在 [src/lib/data/scripts.ts](src/lib/data/scripts.ts) 中添加脚本元数据。
+3. 运行 `npm run validate-scripts` 确保一切正确。
+4. 提交 Pull Request。
 
 ## 🤝 贡献指南
 
@@ -125,6 +132,6 @@ pnpm preview
 
 ## 🙏 致谢
 
-- [SvelteKit](https://kit.svelte.dev/)
+- [Next.js](https://nextjs.org/)
 - [TailwindCSS](https://tailwindcss.com/)
 - 所有提供安装脚本的优秀开源项目
