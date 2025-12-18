@@ -1,0 +1,54 @@
+name: Add Script Automation
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  add-script:
+    if: github.event.label.name == 'approved'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Process Issue and Update Data
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: node scripts/process-issue.cjs
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "feat: add new script ${{ github.event.issue.title }}"
+          title: "feat: add new script from issue #${{ github.event.issue.number }}"
+          body: |
+            This PR was automatically generated from issue #${{ github.event.issue.number }}.
+            Closes #${{ github.event.issue.number }}
+          branch: "add-script-${{ github.event.issue.number }}"
+          base: main
+          labels: |
+            automated-pr
+            script-addition
+
+      - name: Comment on Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Successfully processed the issue and created a Pull Request with the new script data!'
+            })

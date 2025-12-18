@@ -1,7 +1,7 @@
 # Install Scripts Hub
 
 <p align="center">
-  <img src="static/favicon.png" alt="Install Scripts Hub" width="64" height="64">
+  <img src="public/favicon.png" alt="Install Scripts Hub" width="64" height="64">
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/yugasun/install" alt="License">
+    <img src="https://img.shields.io/github/license/yugasun/install-scripts-hub" alt="License">
   </a>
 </p>
 
@@ -18,7 +18,7 @@
 
 ## 📖 Introduction
 
-Install Scripts Hub is a centralized platform that provides one-liner installation scripts for various popular development tools and utilities. Built with SvelteKit, this project offers a clean, fast interface for developers to quickly find and use installation commands for tools like Oh My Zsh, fnm, SDKMAN, and more.
+Install Scripts Hub is a centralized platform that provides one-liner installation scripts for popular development tools and utilities. The current app is built with **Next.js (App Router) + React** and statically exported for simple hosting.
 
 ## ✨ Features
 
@@ -27,7 +27,7 @@ Install Scripts Hub is a centralized platform that provides one-liner installati
 - 📋 **Copy-to-Clipboard**: One-click copy for all installation commands
 - 📱 **Responsive Design**: Works perfectly on mobile devices and desktops
 - 🔍 **Categorized Scripts**: Well-organized installation scripts by category
-- 🚀 **Fast and Lightweight**: Built with SvelteKit for optimal performance
+- 🚀 **Fast and Lightweight**: Static export-friendly Next.js app
 
 ## 🚀 Available Installation Scripts
 
@@ -47,65 +47,76 @@ This project currently includes installation scripts for:
 ### Prerequisites
 
 - Node.js (version 18 or higher)
-- pnpm package manager
+- Any package manager (npm/pnpm/bun)
 
 ### Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yugasun/install.git
-cd install-sveltekit
+git clone https://github.com/yugasun/install-scripts-hub.git
+cd install-scripts-hub
 ```
 
 2. Install dependencies:
 ```bash
-pnpm install
+bun install
 ```
 
 3. Start the development server:
 ```bash
-pnpm dev
+bun run dev
 ```
 
-4. Open your browser and visit `http://localhost:5173`
+4. Open your browser and visit `http://localhost:3000`
 
 ### Building for Production
 
 To create an optimized production build:
 
 ```bash
-pnpm build
+bun run build
 ```
 
-You can preview the production build with:
+You can run the built app locally with:
 
 ```bash
-pnpm preview
+bun run start
 ```
 
 ## 📁 Project Structure
 
 ```
 ├── src/                 # Source code
-│   ├── lib/             # Library code
-│   │   ├── components/  # Svelte components
-│   │   ├── data/        # Data files
-│   │   ├── i18n/        # Internationalization
-│   │   ├── services/    # Services
-│   │   └── utils/       # Utility functions
-│   ├── routes/          # Application routes
-│   └── app.html         # HTML template
-├── static/              # Static assets
-│   └── installs/        # Installation scripts
-├── build/               # Production build output
+│   ├── app/             # Next.js App Router routes
+│   ├── components/      # React components
+│   └── lib/             # Shared types, i18n, services, utils
+├── public/              # Static assets (exported as-is)
+│   ├── installs/        # Installation scripts
+│   └── scripts.*.json   # Script metadata (with scripts.json fallback)
 └── ... configuration files
 ```
 
 ## 📝 Adding New Installation Scripts
 
-1. Add your shell script to the `static/installs/` directory
-2. Update `src/lib/data/scripts.json` with metadata about your script
-3. Update translations in `src/lib/i18n/translations/` if needed
+We welcome contributions! You can add new scripts in two ways:
+
+### 1. Via GitHub Issues (Recommended)
+
+1. Go to the [Issues](https://github.com/yugasun/install-scripts-hub/issues) page.
+2. Click **New Issue** and select the **Add New Script** template.
+3. Fill in the required information (Script ID, URL, Name, Description, etc.).
+4. Once a maintainer labels the issue as `approved`, a Pull Request will be automatically generated.
+
+### 2. Manual Contribution
+
+1. Add your shell script to [public/installs/](public/installs/).
+2. Add the script metadata to [src/lib/data/scripts.ts](src/lib/data/scripts.ts).
+3. Run `npm run validate-scripts` to ensure everything is correct.
+4. Submit a Pull Request.
+
+1. Add your shell script to the `public/installs/` directory
+2. Update the JSON metadata under `public/` (e.g. `public/scripts.en.json`, `public/scripts.zh.json`, and `public/scripts.json` fallback)
+3. Update UI translations in `src/lib/i18n/translations/` if needed
 4. Test your changes locally
 5. Submit a pull request
 
@@ -125,6 +136,6 @@ This project is licensed under the [Apache License 2.0](LICENSE).
 
 ## 🙏 Acknowledgements
 
-- [SvelteKit](https://kit.svelte.dev/)
+- [Next.js](https://nextjs.org/)
 - [TailwindCSS](https://tailwindcss.com/)
 - All the amazing open-source projects providing installation scripts

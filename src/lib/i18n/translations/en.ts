@@ -1,6 +1,10 @@
 import type { Translation } from '../translations';
 
 const en: Translation = {
+  nav: {
+    home: 'Home',
+    about: 'About',
+  },
   common: {
     menu: {
       home: 'Home',
@@ -18,13 +22,21 @@ const en: Translation = {
     },
   },
   home: {
-    title: 'Install Scripts',
+    title: 'Install Scripts Hub',
     subtitle: 'One-line installation scripts for popular tools and software',
     availableScripts: 'Available Scripts',
     searchPlaceholder: 'Search scripts...',
+    clearSearch: 'Clear search',
     loading: 'Loading scripts...',
     loadingError: 'Failed to load scripts. Please try again.',
     noResults: 'No scripts found matching your search.',
+    scriptsFound: 'scripts found',
+    quickTips: 'Quick Tips',
+  },
+  tips: {
+    curl: 'Make sure curl is installed on your system.',
+    sudo: 'Some scripts might require sudo privileges.',
+    verify: 'Always verify script content before running.',
   },
   script: {
     details: 'View details',
@@ -51,12 +63,12 @@ const en: Translation = {
     socialShare: 'Or share on social media:',
   },
   about: {
-    title: 'About Install Scripts',
+    title: 'About Install Scripts Hub',
     subtitle: 'Learn more about this project and how it works',
-    whatIs: 'What is Install Scripts?',
-    description: 'Install Scripts is a platform that provides one-line installation commands for popular tools and software. It makes it easy to install developer tools, utilities, and applications on your system without having to remember complex installation procedures.',
+    whatIs: 'What is Install Scripts Hub?',
+    description: 'Install Scripts Hub is a platform that provides one-line installation commands for popular tools and software. It makes it easy to install developer tools, utilities, and applications on your system without having to remember complex installation procedures.',
     howWorks: 'How does it work?',
-    workingDescription: 'Install Scripts works by providing curated shell scripts that are hosted on our servers. When you run the installation command, it downloads and executes the script, which handles the installation process for you.',
+    workingDescription: 'Install Scripts Hub works by providing curated shell scripts that are hosted on our servers. When you run the installation command, it downloads and executes the script, which handles the installation process for you.',
     step1: 'We maintain a collection of installation scripts for popular software.',
     step2: 'You run a simple curl command that downloads and executes the appropriate script.',
     step3: 'The script handles all the necessary steps to install and configure the software on your system.',

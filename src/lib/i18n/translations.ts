@@ -9,6 +9,10 @@ const translations: { [key: string]: Translation } = {
 
 // Translation interface
 export interface Translation {
+  nav: {
+    home: string;
+    about: string;
+  };
   common: {
     menu: {
       home: string;
@@ -30,9 +34,17 @@ export interface Translation {
     subtitle: string;
     availableScripts: string;
     searchPlaceholder: string;
+    clearSearch: string;
     loading: string;
     loadingError: string;
     noResults: string;
+    scriptsFound: string;
+    quickTips: string;
+  };
+  tips: {
+    curl: string;
+    sudo: string;
+    verify: string;
   };
   script: {
     details: string;

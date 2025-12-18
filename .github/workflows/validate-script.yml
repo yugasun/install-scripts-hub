@@ -1,0 +1,80 @@
+name: Validate Script Submission
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  validate-script:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'script-submission')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Parse Issue
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body;
+            
+            // Extract fields from form body
+            const scriptId = body.match(/### Script ID\s*([\s\S]*?)(?=###|$)/)?.[1]?.trim() || '';
+            const scriptUrl = body.match(/### Script URL\s*([\s\S]*?)(?=###|$)/)?.[1]?.trim() || '';
+            const sourceUrl = body.match(/### Source URL\s*([\s\S]*?)(?=###|$)/)?.[1]?.trim() || '';
+            const nameEn = body.match(/### Name \(English\)\s*([\s\S]*?)(?=###|$)/)?.[1]?.trim() || '';
+            const descEn = body.match(/### Description \(English\)\s*([\s\S]*?)(?=###|$)/)?.[1]?.trim() || '';
+            
+            console.log('Script ID:', scriptId);
+            console.log('Script URL:', scriptUrl);
+            console.log('Source URL:', sourceUrl);
+            console.log('Name (EN):', nameEn);
+            
+            // Validate required fields
+            const errors = [];
+            if (!scriptId || scriptId.startsWith('<!--')) errors.push('Script ID is missing');
+            if (!scriptUrl || scriptUrl.startsWith('<!--')) errors.push('Script URL is missing');
+            if (!sourceUrl || sourceUrl.startsWith('<!--')) errors.push('Source URL is missing');
+            if (!nameEn || nameEn.startsWith('<!--')) errors.push('English Name is missing');
+            if (!descEn || descEn.startsWith('<!--')) errors.push('English Description is missing');
+            
+            core.setOutput('scriptId', scriptId);
+            core.setOutput('scriptUrl', scriptUrl);
+            core.setOutput('errors', JSON.stringify(errors));
+            core.setOutput('isValid', errors.length === 0);
+
+      - name: Comment on Issue
+        uses: actions/github-script@v7
+        if: steps.parse.outputs.isValid == 'false'
+        with:
+          script: |
+            const errors = JSON.parse('${{ steps.parse.outputs.errors }}');
+            const errorMessage = errors.map(e => `- ❌ ${e}`).join('\n');
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Validation Failed\n\nPlease fix the following issues:\n\n${errorMessage}`
+            });
+
+      - name: Add Labels
+        uses: actions/github-script@v7
+        if: steps.parse.outputs.isValid == 'true'
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['validated']
+            });
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Script submission validated!\n\nMaintainers will review and create a PR to add this script to the catalog.'
+            });

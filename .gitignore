@@ -1,23 +1,64 @@
+# Dependencies
 node_modules
+/.pnp
+.pnp.js
 
-# Output
-.output
+# Next.js
+.next/
+out/
+
+# Build outputs
+build/
+dist/
+.output/
+
+# Vercel
 .vercel
+
+# Netlify
 .netlify
+
+# Wrangler (Cloudflare)
 .wrangler
-/.svelte-kit
-/build
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Verifying ignore
+!.env.example
 
 # OS
 .DS_Store
+.DS_Store?
+._*
 Thumbs.db
+desktop.ini
 
-# Env
-.env
-.env.*
-!.env.example
-!.env.test
+# IDEs
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+.project
+.classpath
+.settings/
 
-# Vite
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
+# Testing
+/coverage
+.nyc_output
+
+# TypeScript
+*.tsbuildinfo
+
+

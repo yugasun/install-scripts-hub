@@ -9,8 +9,7 @@ on:
 
 # 设置全局环境变量
 env:
-  NODE_VERSION: 23
-  PNPM_VERSION: 8
+  NODE_VERSION: 20
 
 jobs:
   setup:
@@ -26,25 +25,19 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v4
 
-      - name: 先设置 PNPM
-        uses: pnpm/action-setup@v3
-        with:
-          version: ${{ env.PNPM_VERSION }}
-          run_install: false
-
       - name: 设置 Node.js 环境
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: 安装依赖
-        run: pnpm install --frozen-lockfile
+        run: npm install
 
       # 存储缓存键以供后续作业使用
       - id: store-cache-key
         name: 存储缓存键
-        run: echo "cache-key=${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}" >> $GITHUB_OUTPUT
+        run: echo "cache-key=${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}" >> $GITHUB_OUTPUT
 
   lint:
     name: 代码检查
@@ -54,23 +47,17 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v4
 
-      - name: 先设置 PNPM
-        uses: pnpm/action-setup@v3
-        with:
-          version: ${{ env.PNPM_VERSION }}
-          run_install: false
-
       - name: 设置 Node.js 环境
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: 安装依赖
-        run: pnpm install --frozen-lockfile
+        run: npm install
 
       - name: 运行 Lint
-        run: pnpm run lint || echo "No lint script found"
+        run: npm run lint
 
   typecheck:
     name: 类型检查
@@ -80,46 +67,34 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v4
 
-      - name: 先设置 PNPM
-        uses: pnpm/action-setup@v3
-        with:
-          version: ${{ env.PNPM_VERSION }}
-          run_install: false
-
       - name: 设置 Node.js 环境
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: 安装依赖
-        run: pnpm install --frozen-lockfile
+        run: npm install
 
       - name: 运行类型检查
-        run: pnpm run check || echo "No check script found"
+        run: npm run typecheck
 
-  test:
-    name: 测试
+  build:
+    name: 构建
     needs: setup
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
 
-      - name: 先设置 PNPM
-        uses: pnpm/action-setup@v3
-        with:
-          version: ${{ env.PNPM_VERSION }}
-          run_install: false
-
       - name: 设置 Node.js 环境
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: 安装依赖
-        run: pnpm install --frozen-lockfile
+        run: npm install
 
-      - name: 运行测试
-        run: pnpm run test || echo "No test script found"
+      - name: 运行构建
+        run: npm run build
